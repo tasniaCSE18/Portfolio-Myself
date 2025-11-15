@@ -28,10 +28,17 @@ def home():
     # Experience data
     experience = [
         {
+            'title': 'Software Engineer',
+            'company': 'Business Novelty Ltd',
+            'location': 'Dhaka,Bangladesh',
+            'period': 'Nov 2024 - Present',
+            'description': ' Engineered and deployed enterprise-grade software solutions with integrated ML/AI modules, boosting workflow automation. Optimized system performance and scalability, reducing response latency and improving overall user experience.Collaborated with cross-functional teams to deliver production-ready applications, ensuring code quality and pipelines.'
+        },
+        {
             'title': 'Machine Learning Researcher',
             'company': 'United International University',
             'location': 'Dhaka, Bangladesh',
-            'period': 'May 2024 - Present',
+            'period': 'May 2024 - Nov 2024',
             'description': 'Build reallife application using AI, Generative AI model, Use GEMINI, OPEN AI API, open source model LAMA2,3 API in various business solution'
         },
         {
@@ -40,13 +47,6 @@ def home():
             'location': 'Dhaka,Bangladesh',
             'period': 'Feb 2023 - March 2024',
             'description': 'Building cutting edge LLMs for innovative solutions. Generative AI, LLMs, GPT, Decentralized AI'
-        },
-        {
-            'title': 'Machine Learning Intern',
-            'company': 'Code Alpha Ltd',
-            'location': 'Lucknow,India',
-            'period': 'October 2022 -Feb 2023 ',
-            'description': 'Develop and Deploy Models with Keras ,Pytorch and Tensorflow'
         }
 
     ]
@@ -128,5 +128,5 @@ def download_resume():
 
 
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
