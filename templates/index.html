@@ -5,7 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ personal_info.name }} - Portfolio</title>
+    <script>
+        (function () {
+            var saved = localStorage.getItem('theme');
+            document.documentElement.setAttribute('data-theme', saved || 'light');
+        })();
+    </script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='theme.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -15,13 +22,40 @@
 
 
 
+<!-- ----------------------------------Chatbot ----------------------------------->
+<div class="chatbot-bubble" onclick="toggleChat()">
+    <span class="bubble-icon">💬</span>
+    <div class="sparkle"></div>
+    <div class="sparkle sparkle-2"></div>
+    <div class="sparkle sparkle-3"></div>
+</div>
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        Ask about Tasnia
+        <button class="chat-close" onclick="toggleChat()">×</button>
+    </div>
+    <div class="chat-messages" id="messages">
+        <div class="message bot">
+            <div class="message-content">Hi! 👋 Ask me about Tasnia's experience, projects, education, or contact info!</div>
+        </div>
+    </div>
+    <div class="chat-input-container">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Type your question..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button class="chat-send" onclick="sendMessage()">→</button>
+    </div>
+</div>
+
+<!-- ----------------------------------Chatbot end----------------------------------->
+
+
+
 
     <!-- Navigation Bar -->
 <!-- Navigation Bar -->
 <nav class="navbar">
     <div class="nav-container">
         <div class="logo">
-            <span class="logo-text"></span>
+            <span class="logo-text">TASNIA</span>
             <span class="logo-dot"></span>
         </div>
         <div class="nav-toggle" id="navToggle">
@@ -38,9 +72,15 @@
             <li><a href="#expertise" class="nav-link">Experience</a></li>
             <li><a href="#projects" class="nav-link">Projects</a></li>
             
-            
+            <li><a href="#publications" class="nav-link">Publications</a></li>
             <li><a href="#awards" class="nav-link">Awards</a></li>
             <li><a href="#contact" class="nav-link">Contact</a></li>
+            <li class="theme-toggle-wrap">
+                <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon" aria-hidden="true"></i>
+                    <i class="fas fa-sun" aria-hidden="true"></i>
+                </button>
+            </li>
             <li>
                 <a href="{{ url_for('static', filename='resume/CV.pdf') }}" class="nav-btn" download>
                     <i class="fas fa-download"></i> Resume
@@ -49,15 +89,6 @@
         </ul>
     </div>
 </nav>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -89,13 +120,13 @@
                     <h2 class="profile-name">{{ personal_info.name }}</h2>
                     <p class="profile-title">{{ personal_info.title }}</p>
                     <div class="profile-social">
-                        <a href="https://www.linkedin.com/in/tasnia-haque-588780210/" class="social-button" title="LinkedIn">
+                        <a href="https://www.linkedin.com/in/tasnia-haque-588780210/" class="social-button" title="LinkedIn" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="https://github.com/tasniaCSE18" class="social-button" title="GitHub">
+                        <a href="https://github.com/tasniaCSE18" class="social-button" title="GitHub" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://www.facebook.com/tasnia.haque.184" class="social-button" title="facebook">
+                        <a href="https://www.facebook.com/tasnia.haque.184" class="social-button" title="Facebook" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-facebook"></i>
                         </a>
                     </div>
@@ -103,33 +134,6 @@
             </div>
         </div>
     </section>
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -170,10 +174,6 @@
 
 
 
-
-
-
-
 <!-- Education Section -->
 <section class="education" id="education">
     <div class="container">
@@ -182,79 +182,37 @@
             <p>Academic Background</p>
         </div>
         <div class="education-timeline">
-            <!-- BSc Education -->
-            <div class="education-card" data-aos="fade-up">
+            {% for edu in education %}
+            <div class="education-card" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
                 <div class="education-icon">
-                    <i class="fas fa-graduation-cap"></i>
+                    <i class="fas {{ edu.icon }}"></i>
                 </div>
                 <div class="education-content">
                     <div class="education-header">
-                        <h3>BSc in Computer Science and Engineering</h3>
-                        <span class="cgpa">CGPA: 3.34</span>
+                        <h3>{{ edu.degree }}</h3>
+                        <span class="cgpa">{{ edu.score }}</span>
                     </div>
-                    <h4>Rajshahi University of Engineering and Technology (RUET)</h4>
+                    <h4>{{ edu.institution }}</h4>
+                    {% if edu.major %}
+                    <div class="education-details">
+                        <p class="education-period">
+                            <i class="far fa-calendar-alt"></i>
+                            {{ edu.period }}
+                        </p>
+                        <span class="education-major">Major: {{ edu.major }}</span>
+                    </div>
+                    {% else %}
                     <p class="education-period">
                         <i class="far fa-calendar-alt"></i>
-                        2018 - 2023
+                        {{ edu.period }}
                     </p>
-                    
+                    {% endif %}
                 </div>
             </div>
-
-
-
-
-            <!-- HSC Education -->
-            <div class="education-card" data-aos="fade-up" data-aos-delay="100">
-                <div class="education-icon">
-                    <i class="fas fa-school"></i>
-                </div>
-                <div class="education-content">
-                    <div class="education-header">
-                        <h3>Higher Secondary School Certificate (HSC)</h3>
-                        <span class="cgpa">GPA: 5.00</span>
-                    </div>
-                    <h4>Sirajganj Govt. College,Sirajganj, Bangladesh</h4>
-                    <div class="education-details">
-                        <p class="education-period">
-                            <i class="far fa-calendar-alt"></i>
-                            2016 - 2018
-                        </p>
-                        <span class="education-major">Major: Science</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SSC Education -->
-            <div class="education-card" data-aos="fade-up" data-aos-delay="200">
-                <div class="education-icon">
-                    <i class="fas fa-user-graduate"></i>
-                </div>
-                <div class="education-content">
-                    <div class="education-header">
-                        <h3>Secondary School Certificate (SSC)</h3>
-                        <span class="cgpa">GPA: 5.00</span>
-                    </div>
-                    <h4>Saleha Ishaq Govt. Girls High School,Sirajganj, Bangladesh</h4>
-                    <div class="education-details">
-                        <p class="education-period">
-                            <i class="far fa-calendar-alt"></i>
-                            2014 - 2016
-                        </p>
-                        <span class="education-major">Major: Science</span>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
-
-
-
-
-
-
-
 
 
 
@@ -302,8 +260,7 @@
             <div class="competitive-programming" data-aos="fade-up">
                 <h3>Competitive Programming Profile</h3>
                 <div class="platforms-grid">
-                   
-                    <a href="https://www.codechef.com/users/tasniahaque18" class="platform-card" target="_blank">
+                    <a href="https://www.codechef.com/users/tasniahaque18" class="platform-card" target="_blank" rel="noopener noreferrer">
                         <div class="platform-icon">
                             <i class="fas fa-code"></i>
                         </div>
@@ -312,7 +269,7 @@
                             <span>2-star</span>
                         </div>
                     </a>
-                    <a href="https://codeforces.com/profile/Tasnia_54" class="platform-card" target="_blank">
+                    <a href="https://codeforces.com/profile/Tasnia_54" class="platform-card" target="_blank" rel="noopener noreferrer">
                         <div class="platform-icon">
                             <i class="fas fa-code"></i>
                         </div>
@@ -321,7 +278,7 @@
                             <span>Pupil</span>
                         </div>
                     </a>
-                    <a href="https://atcoder.jp/users/tasnia18" class="platform-card" target="_blank">
+                    <a href="https://atcoder.jp/users/tasnia18" class="platform-card" target="_blank" rel="noopener noreferrer">
                         <div class="platform-icon">
                             <i class="fas fa-code"></i>
                         </div>
@@ -330,9 +287,7 @@
                             <span>9-Kyu</span>
                         </div>
                     </a>
-                   
-                  
-                    <a href="https://www.hackerrank.com/profile/tasniahaque18" class="platform-card" target="_blank">
+                    <a href="https://www.hackerrank.com/profile/tasniahaque18" class="platform-card" target="_blank" rel="noopener noreferrer">
                         <div class="platform-icon">
                             <i class="fas fa-code"></i>
                         </div>
@@ -343,21 +298,9 @@
                     </a>
                 </div>
             </div>
-
-
-
-
-
-         
-  
-
         </div>
     </div>
 </section>
-
-
-
-
 
 
 
@@ -380,38 +323,34 @@
                             <p>{{ exp.description }}</p>
                             <div class="timeline-skills">
                                 <span class="skill-pill">Machine Learning</span>
-                                <span class="skill-pill">AI Development</span>
-                                <span class="skill-pill">Python</span>
+                                <span class="skill-pill">Generative AI</span>
+                                <span class="skill-pill">LLMs</span>
                                 <span class="skill-pill">Deep Learning</span>
-                                <span class="skill-pill">Devops</span>
+                                <span class="skill-pill">Python</span>
+                                <span class="skill-pill">NLP</span>
                             </div>
                         </div>
                     </div>
                     {% endfor %}
                 </div>
                 
-                
-                    
-                    
+                <div class="expertise-stats">
+                    <div class="stat-item" data-aos="fade-up">
+                        <span class="stat-number">2+</span>
+                        <span class="stat-label">Years Experience</span>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Publications</span>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                        <span class="stat-number">6+</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -433,125 +372,32 @@
         </div>
 
         <div class="projects-grid">
-           
-
-            <!-- Prescription Handler -->
-            <div class="project-card" data-category="ai-ml" data-aos="fade-up" data-aos-delay="100">
+            {% for project in projects %}
+            <div class="project-card" data-category="{{ project.category }}" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
                 <div class="project-content">
                     <div class="project-header">
                         <div class="project-icon">
-                            <i class="fas fa-notes-medical"></i>
+                            <i class="fas {{ project.icon }}"></i>
                         </div>
-                        <h3>Prescription Handler</h3>
-                        <span class="project-badge">AI Automated</span>
+                        <h3>{{ project.name }}</h3>
+                        <span class="project-badge">{{ project.badge }}</span>
                     </div>
-                    <p>Automated prescription processing system using OCR and ML models</p>
+                    <p>{{ project.description }}</p>
                     <div class="project-tech">
-                        <span class="tech-tag">OCR</span>
-                        <span class="tech-tag">HTR</span>
-                        <span class="tech-tag">LLMs</span>
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">AI/ML</span>
+                        {% for tag in project.skills %}
+                        <span class="tech-tag">{{ tag }}</span>
+                        {% endfor %}
                     </div>
-                    <a href="https://colab.research.google.com/drive/1X-nDKzW6HWDOqg_grKFGUICL3QTbYMFt?usp=sharing" class="project-link">
-                        Project Link <i class="fas fa-arrow-right"></i>
-                    </a>
+                    {% if project.url %}
+                    <div class="project-links">
+                        <a href="{{ project.url }}" class="project-link" target="_blank" rel="noopener noreferrer">
+                            {{ project.url_label or 'View Project' }} <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-
-            
-            </div>
-
-            <!-- Heart Disease Prediction -->
-            <div class="project-card" data-category="ai-ml" data-aos="fade-up" data-aos-delay="300">
-                <div class="project-content">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            <i class="fas fa-heartbeat"></i>
-                        </div>
-                        <h3>Heart Disease Prediction</h3>
-                        <span class="project-badge">ML</span>
-                    </div>
-                    <p>Machine learning model for predicting heart disease risks</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Machine Learning</span>
-                        <span class="tech-tag">Data Analysis</span>
-                    </div>
-                    <a href="https://github.com/tasniaCSE18/Heart-disease-detection" class="project-link">
-                        View Project <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Stop Ragging -->
-            <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="400">
-                <div class="project-content">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Stop Ragging</h3>
-                        <span class="project-badge">Web App</span>
-                    </div>
-                    <p>Anti-ragging platform for educational institutions</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">Express.js</span>
-                        <span class="tech-tag">PHP</span>
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">JavaScript</span>
-                    </div>
-                    <a href="https://github.com/tasniaCSE18/Stop-Ragging-" class="project-link">
-                        Visit Website <i class="fas fa-external-link-alt"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Student Health -->
-            <div class="project-card" data-category="desktop" data-aos="fade-up" data-aos-delay="500">
-                <div class="project-content">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            <i class="fas fa-dumbbell"></i>
-                        </div>
-                        <h3>User-management-system</h3>
-                        <span class="project-badge">Web App</span>
-                    </div>
-                    <p>Manage the user registration system for any online platform</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Mysql</span>
-                        <span class="tech-tag">Web Application</span>
-                    </div>
-                    <a href="https://github.com/tasniaCSE18/User-management-system" class="project-link">
-                        View Details <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- RUET Hall Management -->
-            <div class="project-card" data-category="web" data-aos="fade-up" data-aos-delay="600">
-                <div class="project-content">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <h3>Online Book Store</h3>
-                        <span class="project-badge">Web App</span>
-                    </div>
-                    <p>An online based sellling and reading books</p>
-                    <div class="project-tech">
-                        <span class="tech-tag">java</span>
-                        <span class="tech-tag">MySQL</span>
-                        <span class="tech-tag">HTML</span>
-                        <span class="tech-tag">CSS</span>
-                      
-                    </div>
-                    <a href="https://github.com/tasniaCSE18/java" class="project-link">
-                        View Project <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
@@ -559,23 +405,94 @@
 
 
 
+    <!-- Publications Section -->
+<section class="publications" id="publications">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Research & Publications</h2>
+            <p>Books, Chapters & Academic Papers</p>
+        </div>
+
+        {% if book_chapter %}
+        <h3 class="publications-subheading" data-aos="fade-up">Book Writing: Authorship and Contributions</h3>
+        <div class="book-feature" data-aos="fade-up">
+            <div class="book-feature-content">
+                <span class="book-badge">{{ book_chapter.role }} · {{ book_chapter.chapter_number }}</span>
+                <h3>{{ book_chapter.book_title }}</h3>
+                <p class="book-chapter-title">{{ book_chapter.chapter_title }}</p>
+                <p class="book-meta">{{ book_chapter.publisher }}{% if book_chapter.year %} · {{ book_chapter.year }}{% endif %}</p>
+                {% if book_chapter.series %}
+                <p class="book-detail"><strong>Series:</strong> {{ book_chapter.series }}</p>
+                {% endif %}
+                {% if book_chapter.bisac %}
+                <p class="book-detail"><strong>BISAC:</strong> {{ book_chapter.bisac }}</p>
+                {% endif %}
+                {% if book_chapter.doi %}
+                <p class="book-detail">
+                    <strong>DOI:</strong>
+                    <a href="{{ book_chapter.doi }}" target="_blank" rel="noopener noreferrer">{{ book_chapter.doi }}</a>
+                </p>
+                {% endif %}
+                <p class="book-summary">{{ book_chapter.summary }}</p>
+                <a href="{{ book_chapter.url }}" class="pub-link book-link" target="_blank" rel="noopener noreferrer">
+                    View Book <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+
+            {% if book_chapter.images %}
+            <div class="book-images-grid">
+                {% for img in book_chapter.images %}
+                <div class="book-image-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 80 }}">
+                    <button
+                        type="button"
+                        class="award-media award-media-clickable book-image-media"
+                        data-src="{{ url_for('static', filename='publications/' + img.file) }}"
+                        data-title="{{ book_chapter.book_title }} — {{ img.label }}"
+                        aria-label="View full size: {{ img.label }}"
+                    >
+                        <img
+                            src="{{ url_for('static', filename='publications/' + img.file) }}"
+                            alt="{{ img.label }} — {{ book_chapter.book_title }}"
+                            class="award-image"
+                            loading="lazy"
+                        >
+                        <span class="award-zoom-hint">
+                            <i class="fas fa-search-plus"></i> Click to enlarge
+                        </span>
+                    </button>
+                    <p class="book-image-label">{{ img.label }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <h3 class="publications-subheading" data-aos="fade-up">Research Papers</h3>
+        <div class="publications-grid">
+            {% for pub in publications %}
+            <div class="publication-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="publication-content">
+                    <div class="publication-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>{{ pub.title }}</h3>
+                    <p>{{ pub.publisher }}</p>
+                    {% if pub.url %}
+                    <a href="{{ pub.url }}" class="pub-link" target="_blank" rel="noopener noreferrer">
+                        Read Publication <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 
 
 
 
-
-
-
-
-   
-
-
-
-
-
-
-
- 
     <!-- Awards Section -->
 <section class="awards" id="awards">
     <div class="container">
@@ -583,36 +500,75 @@
             <h2>Honors & Awards</h2>
             <p>Recognition & Achievements</p>
         </div>
-        <div class="awards-grid">
-            {% for award in awards %}
-            <div class="award-card" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
-                <div class="award-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
+        {% macro render_award_card(award, delay, text_only=false) %}
+            <div class="award-card{% if text_only %} award-card-text-only{% endif %}" data-aos="fade-up" data-aos-delay="{{ delay }}">
+                {% if award.image %}
+                <button
+                    type="button"
+                    class="award-media award-media-clickable"
+                    data-src="{{ url_for('static', filename='awards/' + award.image) }}"
+                    data-title="{{ award.title }}"
+                    aria-label="View full size: {{ award.title }}"
+                >
+                    <img
+                        src="{{ url_for('static', filename='awards/' + award.image) }}"
+                        alt="{{ award.title }}"
+                        class="award-image"
+                        loading="lazy"
+                        onerror="this.closest('.award-media').remove();"
+                    >
+                    <span class="award-zoom-hint">
+                        <i class="fas fa-search-plus"></i> Click to enlarge
+                    </span>
+                </button>
+                {% endif %}
                 <div class="award-content">
-                    <h3>{{ award }}</h3>
+                    <h3>{{ award.title }}</h3>
+                    {% if award.url %}
+                    <a href="{{ award.url }}" class="award-link" target="_blank" rel="noopener noreferrer">
+                        {{ award.url_label or 'Verify credential' }} <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    {% endif %}
                 </div>
             </div>
+        {% endmacro %}
+
+        {% set awards_with_images = awards | selectattr('image') | list %}
+        {% set awards_without_images = awards | rejectattr('image') | list %}
+
+        {% if awards_with_images %}
+        <div class="awards-grid awards-grid-images">
+            {% for award in awards_with_images %}
+            {{ render_award_card(award, loop.index * 100) }}
             {% endfor %}
         </div>
-        
+        {% endif %}
+
+        {% if awards_without_images %}
+        <div class="awards-grid awards-grid-text">
+            {% for award in awards_without_images %}
+            {{ render_award_card(award, loop.index * 100, true) }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <!-- Additional Awards Stats -->
-        <!-- <div class="awards-stats" data-aos="fade-up"> -->
-         
+        <div class="awards-stats" data-aos="fade-up">
+            <div class="stat-item">
+                <span class="stat-number">3</span>
+                <span class="stat-label">Awards</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">2</span>
+                <span class="stat-label">Publications</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">Top 10</span>
+                <span class="stat-label">Contest Finalist</span>
+            </div>
+        </div>
     </div>
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -648,18 +604,21 @@
                         </div>
                     </div>
                     <div class="social-links">
-                        <a href="https://www.linkedin.com/in/tasnia-haque-588780210/" class="social-link" target="_blank">
+                        <a href="https://www.linkedin.com/in/tasnia-haque-588780210/" class="social-link" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="https://github.com/tasniaCSE18" class="social-link" target="_blank">
+                        <a href="https://github.com/tasniaCSE18" class="social-link" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://www.facebook.com/tasnia.haque.184" class="social-link" target="_blank">
+                        <a href="https://www.facebook.com/tasnia.haque.184" class="social-link" target="_blank" rel="noopener noreferrer">
                             <i class="fab fa-facebook"></i>
                         </a>
                     </div>
                 </div>
-                <form class="contact-form" data-aos="fade-left" onsubmit="return sendEmail(event)" id="contactForm">
+
+
+
+                <form class="contact-form" data-aos="fade-left" onsubmit="return submitContactForm(event)"id="contactForm">
                     <div class="form-group">
                         <input type="text" id="name" placeholder="Your Name" required class="form-input">
                     </div>
@@ -681,11 +640,21 @@
         </div>
     </section>
 
+    <!-- Image lightbox (book publication + awards) -->
+    <div id="awardLightbox" class="award-lightbox" aria-hidden="true">
+        <div class="award-lightbox-backdrop" data-close-lightbox></div>
+        <div class="award-lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="awardLightboxCaption">
+            <button type="button" class="award-lightbox-close" data-close-lightbox aria-label="Close">&times;</button>
+            <img id="awardLightboxImage" src="" alt="">
+            <p id="awardLightboxCaption" class="award-lightbox-caption"></p>
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <span class="logo-text">TASNIA HAQUE</span>
+                    <span class="logo-text">TASNIA</span>
                     <span class="logo-dot"></span>
                 </div>
                 <p>Building the future with AI and Machine Learning</p>
@@ -698,7 +667,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 {{ personal_info.name }}. All rights reserved.</p>
+                <p>&copy; 2026 {{ personal_info.name }}. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -706,18 +675,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     <script>
+        // Theme toggle (light / dark)
+        (function () {
+            var toggle = document.getElementById('themeToggle');
+            if (!toggle) return;
+            toggle.addEventListener('click', function () {
+                var root = document.documentElement;
+                var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                root.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+            });
+        })();
+
         // Initialize AOS
         AOS.init({
             duration: 1000,
@@ -775,30 +745,38 @@
             // Run once on page load
             highlightNavigation();
         });
+
+
     
         // Email handling function
-        function sendEmail(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            const emailBody = `
-    Name: ${name}
-    Email: ${email}
-    
-    Message:
-    ${message}`;
-            
-            const mailtoLink = `mailto:tasniahaque18@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
-            
-            window.location.href = mailtoLink;
-            document.getElementById('contactForm').reset();
-            
+
+        async function submitContactForm(event) {
+            event.preventDefault();
+
+            const payload = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            const res = await fetch("/send-email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+
+            alert(data.message);
+
+            if (res.ok) {
+                document.getElementById("contactForm").reset();
+            }
+
             return false;
         }
+
     
         // Projects filtering functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -849,6 +827,47 @@
             });
         };
     
+        // Award image lightbox
+        (function initAwardLightbox() {
+            const lightbox = document.getElementById('awardLightbox');
+            const lightboxImage = document.getElementById('awardLightboxImage');
+            const lightboxCaption = document.getElementById('awardLightboxCaption');
+            if (!lightbox || !lightboxImage) return;
+
+            function openLightbox(src, title) {
+                lightboxImage.src = src;
+                lightboxImage.alt = title;
+                lightboxCaption.textContent = title;
+                lightbox.classList.add('active');
+                lightbox.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                lightbox.setAttribute('aria-hidden', 'true');
+                lightboxImage.src = '';
+                document.body.style.overflow = '';
+            }
+
+            document.querySelectorAll('.award-media-clickable').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    if (btn.classList.contains('award-media-missing')) return;
+                    openLightbox(btn.dataset.src, btn.dataset.title);
+                });
+            });
+
+            lightbox.querySelectorAll('[data-close-lightbox]').forEach(function (el) {
+                el.addEventListener('click', closeLightbox);
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+        })();
+
         // Optional: Show/hide scroll to top button
         window.addEventListener('scroll', () => {
             const scrollTopBtn = document.querySelector('.scroll-top');
@@ -860,6 +879,73 @@
                 }
             }
         });
+
+
+
+//  ----------------------------------Chatbot start----------------------------------->
+        function toggleChat() {
+            const window = document.getElementById('chatWindow');
+            window.classList.toggle('active');
+            if (window.classList.contains('active')) {
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        function addMessage(text, sender, isTyping = false) {
+            const messages = document.getElementById('messages');
+            const div = document.createElement('div');
+            div.className = `message ${sender} ${isTyping ? 'typing' : ''}`;
+            div.innerHTML = isTyping 
+                ? `<div class="message-content"><span class="typing-indicator"><span></span><span></span><span></span></div>`
+                : `<div class="message-content">${text}</div>`;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addMessage(message, 'user');
+            input.value = '';
+            addMessage('', 'bot', true); // Add typing indicator
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                // Remove typing indicator
+                const typingMessage = document.querySelector('.message.typing');
+                if (typingMessage) typingMessage.remove();
+                // Add bot response
+                setTimeout(() => addMessage(data.response, 'bot'), 300);
+            } catch (error) {
+                const typingMessage = document.querySelector('.message.typing');
+                if (typingMessage) typingMessage.remove();
+                addMessage('Sorry, something went wrong!', 'bot');
+            }
+        }
+
+
+
+
+        // Close chat when clicking outside
+        document.addEventListener('click', function(event) {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatBubble = document.querySelector('.chatbot-bubble');
+            if (!chatWindow.contains(event.target) && !chatBubble.contains(event.target)) {
+                chatWindow.classList.remove('active');
+            }
+        });
+//--------------------------------------------Chatbot end-----------------------------------
+
+         
     </script>
 
 </body>

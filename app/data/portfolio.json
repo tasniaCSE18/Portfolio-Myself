@@ -1,0 +1,139 @@
+{
+  "personal_info": {
+    "name": "TASNIA HAQUE",
+    "title": "Machine Learning Researcher",
+    "email": "tasniahaque18@gmail.com",
+    "location": "Dhaka, Bangladesh",
+    "phone": "+8801307082921",
+    "about": "Hi this is Tasnia strongly passionate on Machine Learning technology specially in generative AI and LLMs."
+  },
+  "experience": [
+    {
+      "title": "Software Engineer",
+      "company": "Business Novelty Ltd",
+      "location": "Dhaka, Bangladesh",
+      "period": "Nov 2024 - Present",
+      "description": "Engineered and deployed enterprise-grade software solutions with integrated ML/AI modules, boosting workflow automation. Optimized system performance and scalability, reducing response latency and improving overall user experience. Collaborated with cross-functional teams to deliver production-ready applications, ensuring code quality and pipelines."
+    },
+    {
+      "title": "Machine Learning Researcher",
+      "company": "United International University",
+      "location": "Dhaka, Bangladesh",
+      "period": "May 2024 - Nov 2024",
+      "description": "Build real life application using AI, Generative AI model, Use GEMINI, OPEN AI API, open source model LAMA2,3 API in various business solution"
+    },
+    {
+      "title": "Junior Machine Learning Engineer",
+      "company": "4P Marketing Consultancy Ltd.",
+      "location": "Dhaka, Bangladesh",
+      "period": "Feb 2023 - March 2024",
+      "description": "Building cutting edge LLMs for innovative solutions. Generative AI, LLMs, GPT, Decentralized AI"
+    }
+  ],
+  "education": [
+    {
+      "degree": "BSc in Computer Science and Engineering",
+      "institution": "Rajshahi University of Engineering and Technology (RUET)",
+      "period": "2018 - 2023",
+      "score": "CGPA: 3.34",
+      "icon": "fa-graduation-cap"
+    },
+    {
+      "degree": "Higher Secondary School Certificate (HSC)",
+      "institution": "Sirajganj Govt. College, Sirajganj, Bangladesh",
+      "period": "2016 - 2018",
+      "score": "GPA: 5.00",
+      "major": "Science",
+      "icon": "fa-school"
+    },
+    {
+      "degree": "Secondary School Certificate (SSC)",
+      "institution": "Saleha Ishaq Govt. Girls High School, Sirajganj, Bangladesh",
+      "period": "2014 - 2016",
+      "score": "GPA: 5.00",
+      "major": "Science",
+      "icon": "fa-user-graduate"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Breast Cancer Prediction",
+      "category": "ai-ml",
+      "icon": "fa-brain",
+      "badge": "ML",
+      "description": "Advanced LLM-based project",
+      "skills": ["ML", "Python", "NLP"]
+    },
+    {
+      "name": "Prescription Handler",
+      "category": "ai-ml",
+      "icon": "fa-notes-medical",
+      "badge": "AI Automated",
+      "description": "Automated prescription processing system using OCR and ML models",
+      "skills": ["OCR", "HTR", "LLMs", "Python", "AI/ML"],
+      "url": "https://colab.research.google.com/drive/1X-nDKzW6HWDOqg_grKFGUICL3QTbYMFt?usp=sharing",
+      "url_label": "Project Link"
+    },
+    {
+      "name": "Heart Disease Prediction",
+      "category": "ai-ml",
+      "icon": "fa-heartbeat",
+      "badge": "ML",
+      "description": "Machine learning model for predicting heart disease risks",
+      "skills": ["Python", "Machine Learning", "Data Analysis"],
+      "url": "https://github.com/tasniaCSE18/Heart-disease-detection",
+      "url_label": "View Project"
+    },
+    {
+      "name": "Stop Ragging",
+      "category": "web",
+      "icon": "fa-shield-alt",
+      "badge": "Web App",
+      "description": "Anti-ragging platform for educational institutions",
+      "skills": ["Node.js", "Express.js", "PHP", "MySQL", "JavaScript"],
+      "url": "https://github.com/tasniaCSE18/Stop-Ragging-",
+      "url_label": "Visit Website"
+    },
+    {
+      "name": "User Management System",
+      "category": "web",
+      "icon": "fa-users",
+      "badge": "Web App",
+      "description": "Manage the user registration system for any online platform",
+      "skills": ["MySQL", "Web Application"],
+      "url": "https://github.com/tasniaCSE18/User-management-system",
+      "url_label": "View Details"
+    },
+    {
+      "name": "Online Book Store",
+      "category": "web",
+      "icon": "fa-book",
+      "badge": "Web App",
+      "description": "An online based selling and reading books",
+      "skills": ["Java", "MySQL", "HTML", "CSS"],
+      "url": "https://github.com/tasniaCSE18/java",
+      "url_label": "View Project"
+    }
+  ],
+  "publications": [
+    {
+      "title": "Enhanced Brain Tumor Classification Using Hybrid CNN-Random Forest Methodology",
+      "publisher": "IEEE Xplore"
+    },
+    {
+      "title": "Harness Engineering for Reliable Document Intelligence: A Schema-Guided, Confidence-Aware, and Self-Corrective Vision-Language Model Approach",
+      "publisher": "ICEEICT, IEEE Xplore (under preview)"
+    }
+  ],
+  "awards": [
+    {
+      "title": "Innovative Idea and project Contest RUET 2023 (7th in Final round)"
+    },
+    {
+      "title": "North Bengal Startup Summit 2023 Startup Idea contest Finalist (4th)"
+    },
+    {
+      "title": "Project showcasing - RUET CSE FEST 2022 (14th position)"
+    }
+  ]
+}

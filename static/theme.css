@@ -1,0 +1,331 @@
+/* Dark / light theme */
+
+[data-theme="dark"] {
+    --text-color: #f1f5f9;
+    --text-light: #94a3b8;
+    --background-light: #334155;
+    --white: #1e293b;
+    --bg-body: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-input: #334155;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-input: #475569;
+    --navbar-bg: rgba(15, 23, 42, 0.96);
+    --shadow-nav: 0 2px 16px rgba(0, 0, 0, 0.45);
+    --shadow-card: 0 5px 24px rgba(0, 0, 0, 0.35);
+    --section-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    --pill-bg: rgba(96, 165, 250, 0.15);
+    --nav-hover-bg: rgba(96, 165, 250, 0.12);
+}
+
+.navbar {
+    background: var(--navbar-bg) !important;
+    box-shadow: var(--shadow-nav) !important;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 50%;
+    background: var(--bg-surface);
+    color: var(--text-color);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+}
+
+.theme-toggle .fa-sun {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .fa-moon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .fa-sun {
+    display: inline-block;
+}
+
+/* Section backgrounds */
+[data-theme="dark"] .hero,
+[data-theme="dark"] .skills,
+[data-theme="dark"] .expertise,
+[data-theme="dark"] .projects,
+[data-theme="dark"] .awards,
+[data-theme="dark"] .education {
+    background: var(--section-gradient);
+}
+
+[data-theme="dark"] .services,
+[data-theme="dark"] .publications,
+[data-theme="dark"] .contact {
+    background: var(--bg-body);
+}
+
+/* Cards & surfaces */
+[data-theme="dark"] .service-card,
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .publication-card,
+[data-theme="dark"] .award-card,
+[data-theme="dark"] .education-card,
+[data-theme="dark"] .skill-item,
+[data-theme="dark"] .platform-card,
+[data-theme="dark"] .icpc-card,
+[data-theme="dark"] .timeline-item,
+[data-theme="dark"] .stat-item,
+[data-theme="dark"] .awards-stats,
+[data-theme="dark"] .contact-form,
+[data-theme="dark"] .award-lightbox-dialog {
+    background: var(--bg-surface);
+}
+
+[data-theme="dark"] .award-card-text-only {
+    background: linear-gradient(135deg, var(--bg-surface) 0%, #334155 100%);
+    border-color: rgba(96, 165, 250, 0.2);
+}
+
+[data-theme="dark"] .award-media {
+    background: var(--background-light);
+    border-color: var(--border-subtle);
+}
+
+[data-theme="dark"] .project-card {
+    background: rgba(30, 41, 59, 0.95);
+    border: 1px solid var(--border-subtle);
+}
+
+[data-theme="dark"] .tech-tag,
+[data-theme="dark"] .skill-pill {
+    background: var(--pill-bg);
+    color: #93c5fd;
+}
+
+[data-theme="dark"] .category-btn {
+    background: var(--bg-surface);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .category-btn.active,
+[data-theme="dark"] .category-btn:hover {
+    color: #fff;
+}
+
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group textarea,
+[data-theme="dark"] .chat-input {
+    background: var(--bg-input);
+    border-color: var(--border-input);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .form-input:focus,
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group textarea:focus {
+    background: var(--bg-surface);
+}
+
+[data-theme="dark"] .nav-menu {
+    background: var(--bg-surface);
+}
+
+[data-theme="dark"] .nav-link:hover,
+[data-theme="dark"] .nav-link.active {
+    background: var(--nav-hover-bg);
+}
+
+[data-theme="dark"] .social-button {
+    background: var(--bg-surface);
+}
+
+[data-theme="dark"] .education-major,
+[data-theme="dark"] .project-badge {
+    background: var(--pill-bg);
+    color: #93c5fd;
+}
+
+[data-theme="dark"] .icpc-stats .stat,
+[data-theme="dark"] .awards-stats .stat-item {
+    background: var(--pill-bg);
+}
+
+[data-theme="dark"] .footer {
+    background: #020617;
+}
+
+/* Chatbot */
+[data-theme="dark"] .chat-window {
+    background: var(--bg-surface);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .chat-messages {
+    background: var(--bg-body);
+}
+
+[data-theme="dark"] .message.bot .message-content {
+    background: #1e3a5f;
+    color: #93c5fd;
+}
+
+[data-theme="dark"] .message.user .message-content {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+[data-theme="dark"] .award-lightbox-backdrop {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="dark"] .award-lightbox-caption {
+    color: var(--text-color);
+}
+
+@media (max-width: 1024px) {
+    .nav-menu .theme-toggle-wrap {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding: 0.5rem 0;
+    }
+}
+
+/* Featured book chapter */
+.book-feature {
+    background: var(--bg-surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-subtle);
+}
+
+.book-feature-content {
+    margin-bottom: 1.5rem;
+}
+
+.book-images-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.book-image-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.book-image-media {
+    width: 100%;
+    min-height: 200px;
+}
+
+.book-image-label {
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin: 0;
+}
+
+.book-detail {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.book-detail a {
+    color: var(--primary-color);
+    word-break: break-all;
+}
+
+[data-theme="dark"] .book-detail a {
+    color: #93c5fd;
+}
+
+.book-badge {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    background: var(--pill-bg);
+    color: var(--primary-color);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+[data-theme="dark"] .book-badge {
+    color: #93c5fd;
+}
+
+.book-feature-content h3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.book-chapter-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+[data-theme="dark"] .book-chapter-title {
+    color: #93c5fd;
+}
+
+.book-meta {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.book-summary {
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.book-link {
+    font-weight: 600;
+}
+
+.publications-subheading {
+    font-size: 1.35rem;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .book-images-grid {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .book-images-grid {
+        max-width: 100%;
+    }
+}
